@@ -3,6 +3,16 @@ tem.*
 .vscode/**
 pytest/profile/**
 
+# Pure C++ project specific
+*.o
+*.a
+*.so
+scope
+scope_pure
+scope.log
+core.*
+src/plan.md
+
 ###################################################
 # https://github.com/github/gitignore/blob/main/Python.gitignore
 ###################################################
