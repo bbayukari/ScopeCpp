@@ -1,16 +1,13 @@
 # ScopeCpp - Pure C++ Implementation
 
-A pure C++ implementation of the SCOPE (Scalable Convex Optimization via Efficient Path-following) algorithm for sparse variable selection in high-dimensional statistical models.
+A pure C++ implementation of the SCOPE (sparsity-constraint optimization via splicing iteration) algorithm for sparse variable selection in high-dimensional statistical models.
 
 ## Overview
 
 ScopeCpp provides efficient algorithms for:
 - **Sparse variable selection** using splicing techniques
-- **Path-following optimization** with golden section or sequential search
 - **Cross-validation** for model selection
 - **Information criteria** (AIC, BIC, etc.) for optimal sparsity level
-
-This is a pure C++ version, refactored from the original Python-binding implementation to provide better performance and easier integration into C++ projects.
 
 ## Features
 
@@ -23,11 +20,9 @@ This is a pure C++ version, refactored from the original Python-binding implemen
 
 ### Required
 - **C++ Compiler**: GCC 4.8+ or Clang 3.4+ with C++11 support
-- **Eigen 3**: Linear algebra library (included in `include/Eigen`)
-- **OpenMP**: For parallel computation (optional but recommended)
 
 ### Optional
-- **spdlog**: Logging library (included in `include/spdlog`)
+- **OpenMP**: For parallel computation (optional but recommended)
 
 ## Building
 
@@ -42,7 +37,7 @@ cd ScopeCpp
 make
 
 # Run the example
-make run
+make run ## or ./scope
 ```
 
 ### Manual Compilation
@@ -192,18 +187,23 @@ Key parameters for `run_scope()`:
 
 Output:
 ```
-=== ScopeCpp Pure C++ Version ===
-Running SCOPE algorithm...
+=== ScopeCpp 线性回归示例 ===
+运行 SCOPE 算法（BIC + Sequential Path）...
 
-=== Results ===
-True beta (non-zero): [0]=1.5, [2]=-0.8, [5]=2.0
-Estimated beta:
-  beta[0] = 1.42264
-  beta[5] = 2.20795
-Train loss: 0.0920414
-IC: 3.49419
+=== 结果 ===
+真实 beta（非零项）: [0]=1.5, [2]=-0.8, [5]=2.0
+估计 beta:
+  beta[0] = 1.49789
+  beta[2] = -0.799777
+  beta[5] = 2.00108
+训练损失: 0.00466457
+BIC: -2318.66
 
-Program completed successfully!
+=== 验证 ===
+正确识别的非零变量数: 3 / 3
+✓ 支撑集完全正确！
+
+程序执行完毕！
 ```
 
 ## Citation
@@ -211,11 +211,11 @@ Program completed successfully!
 If you use this software, please cite:
 
 ```bibtex
-@article{zhu2020model,
-  title={Model-free feature screening and FDR control with knockoff features},
-  author={Zhu, Jin and others},
-  journal={Journal of the American Statistical Association},
-  year={2020}
+@article{article,
+  title={title},
+  author={author},
+  journal={journal},
+  year={year}
 }
 ```
 
@@ -234,6 +234,5 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## Acknowledgments
 
-- Original Python-binding version by Jin Zhu and contributors
 - Eigen library for efficient linear algebra
 - spdlog for logging functionality

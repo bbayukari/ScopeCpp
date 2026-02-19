@@ -91,5 +91,8 @@ pair<double, VectorXd> GradientDescentSolver::solve(
     VectorXd result = VectorXd::Zero(para.size());
     result(active_indices) = active_para;
     
+    // 用最终参数重新计算 loss，确保 loss 与参数匹配
+    loss_val = loss_fn(result, data);
+    
     return std::make_pair(loss_val, result);
 }

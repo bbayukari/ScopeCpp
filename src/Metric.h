@@ -181,7 +181,10 @@ class Metric {
     // }
 
     double ic(int train_n, int M, int N, Algorithm *algorithm) {
-        double loss = 2 * (algorithm->get_train_loss() - algorithm->lambda_level * algorithm->beta.cwiseAbs2().sum());
+        // train_loss = RSS / (2n)，即 loss = RSS / n
+        double rss_over_n = 2 * (algorithm->get_train_loss() - algorithm->lambda_level * algorithm->beta.cwiseAbs2().sum());
+        // 转换为负对数似然量级：n * log(RSS/n)，使其与 IC 惩罚项量级匹配
+        double loss = train_n * log(std::max(rss_over_n, 1e-20));
         
         if (ic_type == 1) {
             return loss + 2.0 * algorithm->get_effective_number();

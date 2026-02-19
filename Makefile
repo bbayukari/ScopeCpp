@@ -5,15 +5,19 @@ CXXFLAGS = -std=c++11 -O3 -fopenmp -Wall
 INCLUDES = -I./include
 LDFLAGS = -fopenmp
 
-# Source files
-SRCS = src/Algorithm.cpp \
-       src/UniversalData.cpp \
-       src/utilities.cpp \
-       src/models.cpp \
-       src/main.cpp
+# 核心源文件（不含 main 入口）
+CORE_SRCS = src/Algorithm.cpp \
+            src/UniversalData.cpp \
+            src/utilities.cpp \
+            src/models.cpp \
+            src/main.cpp
+
+# 示例源文件
+EXAMPLE_SRC = src/example.cpp
 
 # Object files
-OBJS = $(SRCS:.cpp=.o)
+CORE_OBJS = $(CORE_SRCS:.cpp=.o)
+EXAMPLE_OBJ = $(EXAMPLE_SRC:.cpp=.o)
 
 # Target executable
 TARGET = scope
@@ -22,8 +26,8 @@ TARGET = scope
 all: $(TARGET)
 
 # Build executable
-$(TARGET): $(OBJS)
-	$(CXX) $(OBJS) -o $(TARGET) $(LDFLAGS)
+$(TARGET): $(CORE_OBJS) $(EXAMPLE_OBJ)
+	$(CXX) $(CORE_OBJS) $(EXAMPLE_OBJ) -o $(TARGET) $(LDFLAGS)
 
 # Compile source files
 %.o: %.cpp
@@ -31,7 +35,7 @@ $(TARGET): $(OBJS)
 
 # Clean build files
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(CORE_OBJS) $(EXAMPLE_OBJ) $(TARGET)
 	rm -f scope.log
 
 # Clean all generated files
